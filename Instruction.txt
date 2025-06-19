@@ -1,0 +1,31 @@
+How to run program:
+
+1. Compile the Java Files using following command. Also make sure the java fiels WordCount.java, WordCountMapper.java, and WordCountReducer.java files are in the same directory.
+- javac -classpath hadoop classpath -d . WordCount.java WordCountMapper.java WordCountReducer.java
+
+Since the above command was giving issue I used the following command:
+- javac -cp $CLASSPATH -d . WordCount.java WordCountMapper.java WordCountReducer.java
+
+2. Create the JAR File by using.
+- jar cvf WordCount.jar -C . .
+or use:
+- jar cvf WordCount.jar WordCountMapper.jar WordCountReducer.jar *.class
+
+3. Create a txt file input.txt( make sure all the files are in the same directory) and add some text:
+vim input.txt
+
+4. Upload Input File to HDFS:
+create an input directory in HDFS:
+- bin/hdfs dfs -mkdir  /input
+Then, upload the input file:
+- bin/hdfs dfs -put input.txt /input/
+
+5. Run the WordCount MapReduce program
+-bin/hadoop jar WordCount.jar WordCount /input /output
+Since my java files and jar were in different directory I used following command:
+- bin/hadoop jar /home/ubuntu/WordCount.jar WordCount /input /output
+
+6. Check the Output
+bin/hdfs dfs -get /output
+cd output/
+cat part-r-00000
